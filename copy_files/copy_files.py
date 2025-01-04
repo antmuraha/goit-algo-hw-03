@@ -10,7 +10,10 @@ def copy_files(path: str, data: ResultList) -> None:
     if not directory.exists():
         path_root_dir = str(directory.resolve())
         print(f"Create destination directory: \"{path_root_dir}\"")
-        os.mkdir(path_root_dir)
+        try:
+            os.mkdir(path_root_dir)
+        except Exception as e:
+            print(f"{e}")
 
     for item in data:
         if not item.get("is_dir"):
@@ -23,13 +26,19 @@ def copy_files(path: str, data: ResultList) -> None:
                 ext = info[1]
                 directory = Path(path, ext)
                 path_ext_dir = str(directory.resolve())
-                if not directory.exists():
-                    print(f"Create extension directory: \"{path_ext_dir}\"")
-                    os.mkdir(path_ext_dir)
 
-                file_dist_path = str(Path(path_ext_dir, name).resolve())
-                if not os.path.isfile(file_dist_path):
-                    shutil.copyfile(file_path, file_dist_path)
-                    print("Copy file:", file_dist_path)
-                else:
-                    print("Duplicate file:", file_dist_path)
+                try:
+                    if not directory.exists():
+                        print(
+                            f"Create extension directory: \"{path_ext_dir}\"")
+                        os.mkdir(path_ext_dir)
+
+                    file_dist_path = str(Path(path_ext_dir, name).resolve())
+                    if not os.path.isfile(file_dist_path):
+                        shutil.copyfile(file_path, file_dist_path)
+                        print("Copy file:", file_dist_path)
+                    else:
+                        print("Duplicate file:", file_dist_path)
+
+                except Exception as e:
+                    print(f"{e}")
