@@ -13,6 +13,12 @@ pip install -r requirements.txt
 ```
 # Task 1
 # Run File Copy Assistant
+# Use the copy_files/example directory for testing.
 
 python copy_files
+
+
+# Task 2
+python draw_snowflake.py
+
 ```
